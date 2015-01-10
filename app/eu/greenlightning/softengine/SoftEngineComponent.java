@@ -109,7 +109,7 @@ public class SoftEngineComponent extends JComponent implements KeyListener, Appl
 		if (zDown) {
 			rotationSpeed = rotationSpeed.minus(Vector3.UNIT_Z);
 		}
-		cube.rotate(rotationSpeed.scale(delta));
+		cube.rotate(rotationSpeed.multiply(delta));
 		renderer.render(camera, cube);
 		repaint();
 	}

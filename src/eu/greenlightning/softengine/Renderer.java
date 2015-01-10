@@ -55,24 +55,23 @@ public class Renderer<S extends Surface> {
 		}
 	}
 
-	private void drawLine(Vector3 one, Vector3 two, Matrix4 transform) {
-		Vector4 oneClippedCoordinates = transform.multiply(Vector4.positionOf(one));
-		Vector4 oneNormalizedDeviceCoordinates = Vector4.perspectiveDivide(oneClippedCoordinates);
-		int screenX1 = projectX(oneNormalizedDeviceCoordinates.getX());
-		int screenY1 = projectY(oneNormalizedDeviceCoordinates.getY());
-		Vector4 twoClippedCoordinates = transform.multiply(Vector4.positionOf(two));
-		Vector4 twoNormalizedDeviceCoordinates = Vector4.perspectiveDivide(twoClippedCoordinates);
-		int screenX2 = projectX(twoNormalizedDeviceCoordinates.getX());
-		int screenY2 = projectY(twoNormalizedDeviceCoordinates.getY());
-		drawLine(screenX1, screenY1, screenX2, screenY2);
+	private void drawLine(Vector3 from, Vector3 to, Matrix4 transform) {
+		Vector2 fromScreenCoordinates = transform(from, transform);
+		Vector2 toScreenCoordinates = transform(to, transform);
+		drawLine(fromScreenCoordinates, toScreenCoordinates);
 	}
 
-	private int projectX(double x) {
-		return (int) ((1 + x) * surface.getWidth() * 0.5);
+	private Vector2 transform(Vector3 vector, Matrix4 transform) {
+		Vector4 clippedCoordinates = transform.multiply(Vector4.positionOf(vector));
+		Vector4 normalizedDeviceCoordinates = Vector4.perspectiveDivide(clippedCoordinates);
+		Vector2 screenCoordinates = project(normalizedDeviceCoordinates);
+		return screenCoordinates;
 	}
 
-	private int projectY(double y) {
-		return (int) ((1 - y) * surface.getHeight() * 0.5);
+	private Vector2 project(Vector4 vector) {
+		double x = (1 + vector.getX()) * surface.getWidth() * 0.5;
+		double y = (1 - vector.getY()) * surface.getHeight() * 0.5;
+		return new Vector2(x, y);
 	}
 
 	public void clear() {
@@ -85,6 +84,10 @@ public class Renderer<S extends Surface> {
 				setPixel(currentX, currentY);
 			}
 		}
+	}
+
+	public void drawLine(Vector2 from, Vector2 to) {
+		drawLine((int) from.getX(), (int) from.getY(), (int) to.getX(), (int) to.getY());
 	}
 
 	public void drawLine(int x0, int y0, int x1, int y1) {
@@ -107,6 +110,10 @@ public class Renderer<S extends Surface> {
 			}
 			setPixel(x0, y0);
 		}
+	}
+
+	public void setPixel(Vector2 pixel) {
+		setPixel((int) pixel.getX(), (int) pixel.getY());
 	}
 
 	public void setPixel(int x, int y) {

@@ -48,7 +48,7 @@ public final class Vector3 {
 	}
 
 	public Vector3 negate() {
-		return scale(-1);
+		return multiply(-1);
 	}
 
 	/**
@@ -64,7 +64,7 @@ public final class Vector3 {
 		if (x == 0 && y == 0 && z == 0) {
 			return this;
 		} else {
-			return scale(1.0 / length());
+			return multiply(1.0 / length());
 		}
 	}
 
@@ -72,7 +72,7 @@ public final class Vector3 {
 		return Math.sqrt(x * x + y * y + z * z);
 	}
 
-	public Vector3 scale(double factor) {
+	public Vector3 multiply(double factor) {
 		return new Vector3(x * factor, y * factor, z * factor);
 	}
 
