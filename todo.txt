@@ -1,0 +1,13 @@
+- tests
+- viewports
+- nodes and scene graph
+- composites & alpha composites
+- quaternions
+- importing models
+- triangle rasterization
+- z-buffering
+- check performance & implement multithreading if necessary
+- flat shading
+- gouraud shading
+- back-face culling
+- tutorial
