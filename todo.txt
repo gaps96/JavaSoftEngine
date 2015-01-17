@@ -1,4 +1,10 @@
 - tests
+- tutorial
+
+- surfaces
+- math
+- 
+- lines
 - viewports
 - nodes and scene graph
 - composites & alpha composites
@@ -10,4 +16,3 @@
 - flat shading
 - gouraud shading
 - back-face culling
-- tutorial
