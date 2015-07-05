@@ -23,6 +23,7 @@ public class SoftEngineComponent extends JComponent implements KeyListener, Appl
 
 	private boolean autoRotate = true;
 	private boolean xUp, xDown, yUp, yDown, zUp, zDown;
+	private int renderMode = 0;
 
 	public SoftEngineComponent() {
 		manager = new SurfaceManager<>(BufferedImageSurface.FACTORY, getWidth(), getHeight());
@@ -58,7 +59,10 @@ public class SoftEngineComponent extends JComponent implements KeyListener, Appl
 			zUp = true;
 		} else if (e.getKeyCode() == KeyEvent.VK_PAGE_DOWN) {
 			zDown = true;
+		} else if (e.getKeyCode() == KeyEvent.VK_R) {
+			renderMode = ++renderMode % 2;
 		}
+
 	}
 
 	@Override
@@ -110,7 +114,10 @@ public class SoftEngineComponent extends JComponent implements KeyListener, Appl
 			rotationSpeed = rotationSpeed.minus(Vector3.UNIT_Z);
 		}
 		cube.rotate(rotationSpeed.multiply(delta));
-		renderer.render(camera, cube);
+		switch(renderMode) {		
+			case 0: renderer.render(camera, cube); break;
+			case 1: renderer.raster(camera, cube); break;
+		}
 		repaint();
 	}
 
