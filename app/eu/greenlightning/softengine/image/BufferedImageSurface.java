@@ -73,13 +73,28 @@ public class BufferedImageSurface implements Surface {
 	    // on the 2D coordinates on screen
 	    int index = (y * width + x);
 
+	    /*
 	    if (depthBuffer.getElemFloat(index) < z) {
 	        return; // Discard
 	    }
+	    */
 
 	    if (x >= 0 && x < width && y >= 0 && y < height) {
+	    	Color4 sourceColor = Color4.parseInt(colorBuffer.getElem(index));
+			float alpha = 0.9f;
+			Color4 cBlend = null;
+			
+			if (depthBuffer.getElemFloat(index) == Float.MAX_VALUE)
+				cBlend = color; 
+			else
+				cBlend = new Color4(
+						sourceColor.getRedPercentage()*alpha + color.getRedPercentage()*(1-alpha),
+						sourceColor.getGreenPercentage()*alpha + color.getGreenPercentage()*(1-alpha), 
+						sourceColor.getBluePercentage()*alpha + color.getBluePercentage()*(1-alpha));
+	    	
+	    	
 	    	depthBuffer.setElemFloat(index, z);	    	
-			colorBuffer.setElem(y * width + x, color.getARGB());		    
+			colorBuffer.setElem(index, cBlend.getARGB());		    
 		}
 	}		
 

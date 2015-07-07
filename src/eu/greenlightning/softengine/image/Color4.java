@@ -72,6 +72,10 @@ public final class Color4 {
 	public int getARGB() {
 		return value;
 	}
+	
+	public static Color4 parseInt(int color) {
+		return new Color4((color >> 8) & 0xff, color & 0xff, (color >> 16) & 0xff);
+	}
 
 	@Override
 	public String toString() {
@@ -79,7 +83,7 @@ public final class Color4 {
 		double g = getGreenPercentage() * 100;
 		double b = getBluePercentage() * 100;
 		double a = getAlphaPercentage() * 100;
-		return String.format("Color4(r: %d,g: %d, b: %d, a: %d)", r, b, g, a);
+		return String.format("Color4(r: %f,g: %f, b: %f, a: %f)", r, b, g, a);
 	}
 
 }
