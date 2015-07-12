@@ -18,7 +18,7 @@ public class SoftEngineComponent extends JComponent implements KeyListener, Appl
 
 	private SurfaceManager<BufferedImageSurface> manager;
 	private Renderer<BufferedImageSurface> renderer;
-	private Mesh cube;
+	private Mesh meshObj;
 	private PerspectiveCamera camera;
 
 	private boolean autoRotate = true;
@@ -29,8 +29,9 @@ public class SoftEngineComponent extends JComponent implements KeyListener, Appl
 		manager = new SurfaceManager<>(BufferedImageSurface.FACTORY, getWidth(), getHeight());
 		renderer = manager.getRenderer();
 
-		cube = MeshFactory.createCube(2);
-		cube.setName("Cube");
+		// meshObj = MeshFactory.createCube(2);
+		// meshObj.setName("Cube");
+		meshObj = MeshFactory.parseBlenderJsonFile("./monkey.babylon"); 
 
 		camera = new PerspectiveCamera();
 		camera.position = new Vector3(0, 0, 4);
@@ -46,7 +47,7 @@ public class SoftEngineComponent extends JComponent implements KeyListener, Appl
 		if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 			autoRotate = !autoRotate;
 		} else if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
-			cube.setRotation(Vector3.ZERO);
+			meshObj.setRotation(Vector3.ZERO);
 		} else if (e.getKeyCode() == KeyEvent.VK_UP) {
 			xUp = true;
 		} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
@@ -113,10 +114,10 @@ public class SoftEngineComponent extends JComponent implements KeyListener, Appl
 		if (zDown) {
 			rotationSpeed = rotationSpeed.minus(Vector3.UNIT_Z);
 		}
-		cube.rotate(rotationSpeed.multiply(delta));
+		meshObj.rotate(rotationSpeed.multiply(delta));
 		switch(renderMode) {		
-			case 0: renderer.render(camera, cube); break;
-			case 1: renderer.raster(camera, cube); break;
+			case 0: renderer.render(camera, meshObj); break;
+			case 1: renderer.raster(camera, meshObj); break;
 		}
 		repaint();
 	}

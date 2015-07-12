@@ -24,4 +24,9 @@ public class Face {
 		return index;
 	}
 
+	@Override
+	public String toString() {
+		return "[" + indices[0] + ", " + indices[1] + ", " + indices[2] + "]";
+	}
+	
 }
